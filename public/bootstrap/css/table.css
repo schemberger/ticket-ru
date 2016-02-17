@@ -1,0 +1,17 @@
+#table th, td
+{
+    border: 1px dotted #666;
+    padding: 0.5em;
+    text-align: center;
+    color: #265a88;
+
+}
+.link:hover{
+    color: #000000;
+    background: #35DAFA;
+    cursor: pointer;
+}
+
+
+
+
