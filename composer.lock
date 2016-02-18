@@ -4,7 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "93244b2a03ebb18f57a51ae1c94800a1",
+    "hash": "2dfba3c5ba15a2e9a1567757d563b55d",
+    "content-hash": "f8f21c8602e13c86d9437838889a7535",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -2097,16 +2098,16 @@
         },
         {
             "name": "uepg/laravel-sybase",
-            "version": "1.0.2",
+            "version": "1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/uepg/laravel-sybase.git",
-                "reference": "47a89e4625ffe8850fefbb93d8239679e6c30c19"
+                "reference": "e1677b68f38a4f24394279590cce056e81e4739d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/uepg/laravel-sybase/zipball/47a89e4625ffe8850fefbb93d8239679e6c30c19",
-                "reference": "47a89e4625ffe8850fefbb93d8239679e6c30c19",
+                "url": "https://api.github.com/repos/uepg/laravel-sybase/zipball/e1677b68f38a4f24394279590cce056e81e4739d",
+                "reference": "e1677b68f38a4f24394279590cce056e81e4739d",
                 "shasum": ""
             },
             "require": {
@@ -2131,15 +2132,15 @@
                 }
             ],
             "description": "Sybase based Eloquent module extension for Laravel 5.x.",
-            "time": "2015-12-21 20:08:02"
+            "time": "2016-02-18 18:59:06"
         },
         {
             "name": "uepg/sgi-authorizer",
-            "version": "0.0.9",
+            "version": "0.0.11",
             "source": {
                 "type": "git",
                 "url": "https://git.uepg.br/sgi/sgi-authorizer.git",
-                "reference": "0d265dc8fe87f72c48ce3519d31dba36c45fc308"
+                "reference": "1991fb01c522bab0566692f31238412af4c81f35"
             },
             "require": {
                 "guzzlehttp/guzzle": "~6.0",
@@ -2164,7 +2165,7 @@
                 }
             ],
             "description": "Pacote cliente para aplicativos Laravel que gerencia a autorização (login) de acesso aos sistemas UEPG usando o servidor SGI-Server-Security",
-            "time": "2016-02-12 12:40:48"
+            "time": "2016-02-18 12:52:45"
         },
         {
             "name": "uepg/sgi-user",

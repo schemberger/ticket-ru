@@ -29,7 +29,7 @@
             <br/>
 
             <div class="form-group">
-                {!! Form::submit('Enviar', ['class'=>'col-sm-2 col-sm-offset-2 btn btn-default']) !!}
+                {!! Form::submit('Enviar', ['class'=>'col-sm-1 col-sm-offset-2 btn btn-success']) !!}
             </div>
         </fieldset>
 

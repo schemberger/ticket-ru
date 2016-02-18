@@ -66,7 +66,7 @@
 
 <footer class="_footer navbar navbar-default pull-left pull-down">
     <div class="container-fluid">
-        <p class="navbar-text">© 2015 - <a href="http://pitangui.uepg.br/nti" target="_blank">Núcleo de Tecnologia de
+        <p class="navbar-text">© {{date("Y")}} - <a href="http://pitangui.uepg.br/nti" target="_blank">Núcleo de Tecnologia de
                 Informação - UEPG</a>
             </br>Problemas na visualização? <a href="mailto: internet@uepg.br" target="_blank">internet@uepg.br</a></p>
 

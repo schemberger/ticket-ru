@@ -42,7 +42,7 @@ class CaixaController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new resource.f
      *
      * @return \Illuminate\Http\Response
      */
@@ -108,7 +108,7 @@ class CaixaController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
+     *git
      * @param  \Illuminate\Http\Request $request
      * @param  int $id
      * @return \Illuminate\Http\Response

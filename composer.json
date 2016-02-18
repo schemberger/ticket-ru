@@ -11,9 +11,9 @@
     "php": ">=5.5.9",
     "laravel/framework": "5.1.*",
     "laravelcollective/html": "5.1.*",
-    "uepg/laravel-sybase": "1.*",
-    "uepg/sgi-authorizer": "0.0.*",
-    "uepg/sgi-user": "1.*"
+    "uepg/sgi-user": "1.*",
+    "uepg/laravel-sybase": "^1.0",
+    "uepg/sgi-authorizer": "^0.0.11"
   },
   "repositories": [
     {
