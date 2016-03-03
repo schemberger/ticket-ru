@@ -55,12 +55,9 @@
 
 </div>
 
-
 @yield(Config::get('sgiauthorizer.view.contentSection'))
 
 @yield(Config::get('sgiauthorizer.view.contentUserInfo'))
-
-
 
 @yield('content')
 

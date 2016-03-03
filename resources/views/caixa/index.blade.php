@@ -19,15 +19,19 @@
                             {{date('d/m/Y', strtotime($ca->dt_atividade))}}
                         </td>
                         <td>
-                            {{'$'}}
+                            R$
+                            @if(isset($venda_dia[$k])){}
                             {{money_format('%i' ,$venda_dia[$k]->soma)}}
+                            @else
+                                {{money_format('%i' ,0)}}
+                            @endif
                         </td>
                         <td>
-                            {{'$'}}
+                            {{'R$'}}
                             {{money_format('%i' ,$ca->vl_deposito)}}
                         </td>
                         <td>
-                            {{'$'}}
+                            {{'R$'}}
                             {{money_format('%i' , $ca->vl_troco)}}
                         </td>
                     </tr>

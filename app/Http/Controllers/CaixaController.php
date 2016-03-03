@@ -3,6 +3,7 @@
 namespace Ticket\Http\Controllers;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Redirect;
 use Mockery\Exception;
 use Illuminate\Http\Request;
 use Ticket\Http\Requests;
@@ -46,9 +47,13 @@ class CaixaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
-        //
+        $vl_troco = $this->valorTroco($id);
+
+        //var_dump($vl_troco);
+
+        return view('caixa.caixaAtual',['restaurante' => \Ticket\Unidade::find($id)],  compact('vl_troco'));
     }
 
     /**
@@ -59,7 +64,22 @@ class CaixaController extends Controller
      */
     public function store(Request $request)
     {
+        $caixa = new Caixa;
+        $caixa->cd_unidade = $request->cd_unidade;
+        $caixa->vl_deposito = $request->vl_deposito;
+        $caixa->dt_atividade = date('Y-m-d');
+        $caixa->vl_troco = $request->vl_troco;
+        $caixa->save();
 
+        return redirect()->route('caixa/'$caixa->cd_unidade'/venda', ['restaurante' => \Ticket\Unidade::find($caixa->cd_unidade)]);
+    }
+
+    public function valorTroco($id){
+        $vl_troco = \Ticket\Caixa::select('vl_troco')
+            ->orderBy('ticket_caixa.dt_atividade', 'desc')
+            ->where('ticket_caixa.cd_unidade', '=', $id)
+            ->take(1)->get()->first();
+        return $vl_troco;
     }
 
     /**
@@ -173,9 +193,7 @@ class CaixaController extends Controller
             ->groupBy('ticket_venda_vista.dt_venda')
             ->orderBy('ticket_venda_vista.dt_venda', 'DESC')
             ->get();
-
         return $soma;
-
     }
 
 }

@@ -40,9 +40,8 @@
         <div class="col-sm-9">
 
             <div class="row ">
-                <a href="{{ url('caixa/'.$restaurante->cd_unidade.'/caixaAtual') }}" class="btn btn-primary btn-lg"
+                <a href="{{ url('caixa/'.$restaurante->cd_unidade.'/create') }}" class="btn btn-primary btn-lg"
                    role="button">Abrir Caixa</a>
-
                 <p></p>
             </div>
 

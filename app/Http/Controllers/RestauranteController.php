@@ -111,8 +111,9 @@ class RestauranteController extends Controller
     public function excluir($id)
     {
         try{
+            $unidade = Unidade::find($id);
+            $unidade->delete();
 
-            unidade::destroy($id);
             return redirect('restaurante/lista');
 
         }catch (\Illuminate\Database\QueryException $e){

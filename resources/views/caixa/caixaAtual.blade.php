@@ -27,18 +27,29 @@
                         </td>
                         <td>
 
-
-
+                            <input id="currency" name="vl_deposito" type="vl_deposito" placeholder="Valor de depósito" value="{{ old('vl_deposito') }}"
+                                           class="form-control input-md">
+                            <!-- {!! Form::text('vl_deposito', Input::old('vl_deposito')) !!} -->
                         </td>
                         <td>
-
-                            {{'$'}}
-                            {{money_format('%i' , $vl_troco->vl_troco)}}
-
+                            <label class="control-label" for="vl_troco">{{money_format('%i' , $vl_troco->vl_troco)}} </label>
+                            <input type="hidden" name="vl_troco" value="{{money_format('%i' , $vl_troco->vl_troco)}}">
                         </td>
-                    </tr>
+                    <td>
+                        <!-- Button (Double) -->
+                        <div class="form-group">
+                            <label class="control-label" for="submit"></label>
+                            <div class="pull-right">
+                                <button id="submit" name="submit" class="btn btn-success glyphicon glyphicon-ok"></button>
+
+                            </div>
+                        </div>
+                    </td>
+
+                </tr>
 
                 </fieldset>
+                <input type="hidden" name="cd_unidade" value="{{$restaurante->cd_unidade}}">
 
                 {!! Form::close() !!}
 

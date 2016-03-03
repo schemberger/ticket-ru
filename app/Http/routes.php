@@ -25,7 +25,7 @@ Route::group(['middleware'=>'sgiauth'], function() {
 
 
     Route::get('caixa/{id}/caixa', 'CaixaController@index');
-    Route::get('caixa/{id}/caixaAtual', 'CaixaController@caixaAtual');
+    Route::get('caixa/{id}/create', 'CaixaController@create');
     Route::post('caixa/{id}/show', 'CaixaController@show');
     Route::resource('caixa', 'CaixaController');
 
