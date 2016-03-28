@@ -2,6 +2,7 @@
 
 @section('content')
     <h2>Unidades</h2>
+    <a class="btn btn-success " href="{{ url('restaurante') }}" role="button">Voltar</a>
     <nav class="pull-right">
         <a class="btn btn-default btn-primary btn-lg" href="{{ url('restaurante/create') }}" role="button">Nova Unidade</a>
         <a class="btn btn-default btn-primary btn-lg" href="{{ url('restaurante/ajuda') }}" role="button">Ajuda</a>

@@ -20,13 +20,18 @@ Route::group(['middleware'=>'sgiauth'], function() {
     Route::get('restaurante/lista', 'RestauranteController@lista');
     Route::get('restaurante/ajuda', 'RestauranteController@ajuda');
     Route::get('restaurante/{id}/excluir', 'RestauranteController@excluir');
-    Route::get('restaurante/{id}/unidade', 'RestauranteController@unidade');
+    //Route::get('restaurante/{id}/unidade', 'RestauranteController@unidade');
     Route::resource('restaurante', 'RestauranteController');
 
 
-    Route::get('caixa/{id}/caixa', 'CaixaController@index');
+    Route::get('caixa/{id}', 'CaixaController@index');
     Route::get('caixa/{id}/create', 'CaixaController@create');
+    //Route::get('caixa/{id}/venda', 'CaixaController@venda');
     Route::post('caixa/{id}/show', 'CaixaController@show');
     Route::resource('caixa', 'CaixaController');
+
+    Route::get('venda/{id}', 'VendaController@index');
+    Route::post('venda/{id}/busca', 'VendaController@buscaServidor');
+
 
 });

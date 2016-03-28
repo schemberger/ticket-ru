@@ -39,39 +39,7 @@
 
         <div class="col-sm-9">
 
-            <div class="row ">
-                <a href="{{ url('caixa/'.$restaurante->cd_unidade.'/create') }}" class="btn btn-primary btn-lg"
-                   role="button">Abrir Caixa</a>
-                <p></p>
-            </div>
-
-            {!! Form::open(array('url' => 'caixa/'.$restaurante->cd_unidade.'/show', 'class'=>'form-horizontal')) !!}
-
-            <fieldset>
-                <div class="row">
-                    <div class="col-md-1 col-lg-offset-4">
-
-                        {!! Form::select('mes', ['Mês', '01' => 'Janeiro', '02' => 'Fevereiro', '03' => 'Março', '04' => 'Abril', '05' => 'Maio', '06' => 'Junho',
-                             '07' =>'Julho', '08' => 'Agosto', '09' => 'Setembro', '10' => 'Outubro', '11' => 'Novembro', '12' => 'Dezembro'],
-                                ['class' => 'form-control']) !!}
-
-                    </div>
-                    <div class="col-md-1 col-md-offset-1">
-
-                        {!! Form::select('ano', ['Ano', date("Y") => date("Y"), date("Y")-1 => date("Y")-1, date("Y")-2 => date("Y")-2, date("Y")-3 => date("Y")-3, date("Y")-4 => date("Y")-4]) !!}
-
-                    </div>
-
-                    <div class="form-group">
-                        {!! Form::submit('Buscar', ['class'=>'col-sm-1 btn btn-primary']) !!}
-                    </div>
-
-                </div>
-            </fieldset>
-
-            {!! Form::close() !!}
-
-            @yield('caixa')
+            @yield('venda')
 
         </div>
     </div>

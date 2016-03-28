@@ -16,13 +16,13 @@
                     <div class="navbar-collapse collapse sidebar-navbar-collapse">
                         <ul class="nav navbar-nav">
 
-                            <li class="btn btn-default btn-primary btn-lg" role="button"><a href="{{ url('caixa/'.$restaurante->cd_unidade.'/caixa') }} ">Caixa</a></li>
+                            <li class="btn btn-default btn-primary btn-lg" role="button"><a href="{{ url('caixa/'.$restaurante->cd_unidade) }} ">Caixa</a></li>
                             <li class="btn btn-default btn-primary btn-lg" role="button"><a href="#">Perdas a Vista</a></li>
                             <li class="btn btn-default btn-primary btn-lg" role="button"><a href="#">Perdas a Prazo</a></li>
                             <li class="btn btn-default btn-primary btn-lg" role="button"><a href="#">Categorias</a></li>
                             <li class="btn btn-default btn-primary btn-lg" role="button"><a href="{{ url('restaurante') }}">Mudar Unidade</a></li>
                             <li class="btn btn-default btn-primary btn-lg" role="button"><a href="{{ url('restaurante/lista') }}">Unidades</a></li>
-                            <li class="btn btn-default btn-primary btn-lg" role="button"><a href="#">Venda</a></li>
+                            <li class="btn btn-default btn-primary btn-lg" role="button"><a href="{{ url('/venda'.$restaurante->cd_unidade) }}">Venda</a></li>
                             <li class="btn btn-default btn-primary btn-lg" role="button"><a href="#">Relatórios</a></li>
 
                         </ul>

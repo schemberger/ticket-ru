@@ -49,11 +49,19 @@ class CaixaController extends Controller
      */
     public function create($id)
     {
-        $vl_troco = $this->valorTroco($id);
+        $caixas = \Ticket\Caixa::where('dt_atividade', '=', date('Y-m-d'))
+            ->where('cd_unidade', '=', $id)->get();
 
-        //var_dump($vl_troco);
+        if(count($caixas)){
 
-        return view('caixa.caixaAtual',['restaurante' => \Ticket\Unidade::find($id)],  compact('vl_troco'));
+            return redirect('caixa/'.$id)->with('message', 'Caixa do dia já aberto.');;
+
+        }else{
+
+            $vl_troco = $this->valorTroco($id);
+
+            return view('caixa.caixaAtual',['restaurante' => \Ticket\Unidade::find($id)],  compact('vl_troco'));
+        }
     }
 
     /**
@@ -64,14 +72,20 @@ class CaixaController extends Controller
      */
     public function store(Request $request)
     {
+
+
+        $vl_venda = $this->tabelaCaixa($request->cd_unidade, date('Y-m-d'), date('Y-m-d'));
+        $troco_atual = $request->vl_troco + $vl_venda - $request->vl_deposito;
+
         $caixa = new Caixa;
         $caixa->cd_unidade = $request->cd_unidade;
         $caixa->vl_deposito = $request->vl_deposito;
         $caixa->dt_atividade = date('Y-m-d');
-        $caixa->vl_troco = $request->vl_troco;
+        $caixa->vl_troco = $troco_atual;
+        $id = $caixa->cd_unidade;
         $caixa->save();
 
-        return redirect()->route('caixa/'$caixa->cd_unidade'/venda', ['restaurante' => \Ticket\Unidade::find($caixa->cd_unidade)]);
+        return redirect('caixa/'.$id);
     }
 
     public function valorTroco($id){
@@ -96,18 +110,18 @@ class CaixaController extends Controller
 
         if ($mes > 0 && $mes < 13 && $ano != 0) {
 
-            $data_ini = $ano . "-" . $mes . "-1";
-            $last_day = cal_days_in_month(CAL_GREGORIAN, $mes, $ano); //pegar o ultimo dia do mes
-            $data_fim = $ano . "-" . $mes . "-" . $last_day;
+                $data_ini = $ano . "-" . $mes . "-1";
+                $last_day = cal_days_in_month(CAL_GREGORIAN, $mes, $ano); //pegar o ultimo dia do mes
+                $data_fim = $ano . "-" . $mes . "-" . $last_day;
 
-            $caixas = \Ticket\Caixa::where('ticket_caixa.dt_atividade', '>=', $data_ini)
-                ->where('ticket_caixa.dt_atividade', '<=', $data_fim)
-                ->where('ticket_caixa.cd_unidade', '=', $id)
-                ->orderBy('ticket_caixa.dt_atividade', 'DESC')->get();
+                $caixas = \Ticket\Caixa::where('ticket_caixa.dt_atividade', '>=', $data_ini)
+                    ->where('ticket_caixa.dt_atividade', '<=', $data_fim)
+                    ->where('ticket_caixa.cd_unidade', '=', $id)
+                    ->orderBy('ticket_caixa.dt_atividade', 'DESC')->get();
 
-            $vendaDia = $this->tabelaCaixa($id, $data_ini, $data_fim);
+                $vendaDia = $this->tabelaCaixa($id, $data_ini, $data_fim);
 
-            return view('caixa.caixa', ['restaurante' => \Ticket\Unidade::find($id), 'caixa' => $caixas, 'venda_dia' => $vendaDia, 'msg' => 'ok']);
+                return view('caixa.caixa', ['restaurante' => \Ticket\Unidade::find($id), 'caixa' => $caixas, 'venda_dia' => $vendaDia, 'msg' => 'ok']);
 
         } else {
 
@@ -144,9 +158,25 @@ class CaixaController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id, Request $request)
     {
-        //
+
+        $vendaDia = $this->tabelaCaixa($id, $request->dt_atividade, $request->dt_atividade);
+        //var_dump($vendaDia);
+
+        if($vendaDia){
+
+            //return back()->with('message', 'O caixa não pode ser apagado, pois possui vendas registradas.');
+            return redirect('caixa/'.$id)->with('message', 'O caixa não pode ser apagado, pois possui vendas registradas.');
+
+        }else{
+
+            Caixa::where('ticket_caixa.dt_atividade', '=', $request->dt_atividade)
+                ->where('ticket_caixa.cd_unidade', '=', $id)->delete();
+
+            return redirect('caixa/'.$id);
+        }
+
     }
 
     public function caixaAtual($id)
@@ -174,6 +204,23 @@ class CaixaController extends Controller
 
     }
 
+    public function venda($id){
+        $data_dia = date('Y-m-d');
+        $caixa_dia = Caixa::where('ticket_caixa.cd_unidade', '=', $id)
+            ->where('ticket_caixa.dt_atividade', '=', $data_dia)
+            ->get();
+
+        if(count($caixa_dia)){
+
+            return view('caixa.venda',['restaurante' => \Ticket\Unidade::find($id)]);
+
+        }else{
+            //var_dump($caixa_dia);
+            return redirect('caixa/'.$id.'/create') -> with('message', 'O caixa ainda não foi aberto.');
+        }
+
+    }
+
     /**
      * @param $id
      * @param $data_ini
@@ -193,7 +240,11 @@ class CaixaController extends Controller
             ->groupBy('ticket_venda_vista.dt_venda')
             ->orderBy('ticket_venda_vista.dt_venda', 'DESC')
             ->get();
-        return $soma;
+
+        if(count($soma)){
+            return $soma;
+        }else
+            return $soma=0;;
     }
 
 }
