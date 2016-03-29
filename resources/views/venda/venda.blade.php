@@ -2,14 +2,17 @@
 
 @section('venda')
 
-
+    @if(Session::has('message'))
+        <div class="alert alert-danger">
+            <strong>{{ Session::get('message') }}</strong>
+        </div>
+    @endif
 
 <div class="row">
-    <div class="col-md-8 col-lg-offset-2">
+    <div class="col-md-8 col-lg-offset-2" style="margin-top: 50px">
 
         <div>
-            {!! Form::open(array('url' => '#')) !!}
-            {!! Form::hidden('_method', 'POST') !!}
+            {!! Form::model($restaurante, array('url' => 'venda/'.$restaurante->cd_unidade.'/update', 'method' => 'put', 'class'=>'form-horizontal')) !!}
 
                 <label class="control-label col-md-2" for="submit" style="font-size: 20px">Código</label>
                 <div class="col-md-2">
@@ -17,12 +20,14 @@
                            class="form-control input-md">
                 </div>
 
-                <label class="control-label col-md-2 col-lg-offset-3" for="submit" style="font-size: 20px">Quantidade</label>
+                <label class="control-label col-md-2 col-md-offset-2" for="submit" style="font-size: 20px">Quantidade</label>
                 <div class="col-md-2 ">
                     <input name="quantidade" type="quantidade" placeholder="Qntd." value=""
                            class="form-control input-md">
                 </div>
-
+                <div class="col-md-2 pull-right">
+                    {!! Form::submit('Imprimir', ['class'=>'btn-lg btn-success']) !!}
+                </div>
             {!! Form::close() !!}
         </div>
 
@@ -48,8 +53,9 @@
             </thead>
         </table>
 
-        {!! Form::open(array('url' => 'venda/'. $restaurante->cd_unidade.'/busca')) !!}
+        {!! Form::open(array('url' => 'venda/'.$restaurante->cd_unidade.'/busca')) !!}
         {!! Form::hidden('_method', 'POST') !!}
+        <div style="margin-top: 50px">
 
             <h2>Servidor para Debitar</h2>
                 <label class="control-label col-md-1" for="submit" style="font-size: 20px">Nome</label>
@@ -57,7 +63,7 @@
                     <input name="nome" type="nome" placeholder="Nome do Servidor" value=""
                            class="form-control input-md">
                 </div>
-
+        </div>
         {!! Form::submit('Buscar', ['class'=>'btn btn-info']) !!}
 
         {!! Form::close() !!}

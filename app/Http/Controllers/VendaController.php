@@ -8,6 +8,8 @@ use Monolog\Handler\NullHandlerTest;
 use Ticket\Caixa;
 use Ticket\Http\Requests;
 use Ticket\Http\Controllers\Controller;
+use DB;
+use Ticket\Unidade;
 
 class VendaController extends Controller
 {
@@ -78,7 +80,7 @@ class VendaController extends Controller
      */
     public function edit($id)
     {
-        //
+
     }
 
     /**
@@ -90,7 +92,14 @@ class VendaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'codigo' => 'required',
+            'quantidade' => 'required',
+        ]);
+        $unidade = Unidade::find($id);
+        $unidade->nr_sequencia += $request->quantidade;
+        $unidade->save();
+        return redirect('venda/'.$unidade->cd_unidade);
     }
 
     /**
@@ -120,8 +129,13 @@ class VendaController extends Controller
 
         $nome =$request->nome;
 
-        $consulta = DB::statement(pessoas($nome));
-        var_dump($consulta);
+        $consulta = DB::select('exec Pessoas(?)', array($nome));
+        //dd($consulta);
+        if(count($consulta)){
+
+        }else{
+            redirect(back())->with('message', 'Servidor não encontrado');
+        }
 
     }
 }
