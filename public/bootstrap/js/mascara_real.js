@@ -1,3 +1,3 @@
 $(function() {
-    $('#currency').maskMoney({prefix:'R$ ', allowNegative: false, thousands:'.', decimal:',', affixesStay: false});
+    $('#currency').maskMoney({prefix:'R$ ', allowNegative: false, thousands:'.', affixesStay: false});
 })

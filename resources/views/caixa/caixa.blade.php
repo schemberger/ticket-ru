@@ -42,15 +42,15 @@
                             {{'$'}}
                             {{money_format('%i' , $ca->vl_troco)}}
                         </td>
-
-                        <td>
-                            {!! Form::open(array('url' => 'caixa/' . $ca->cd_unidade)) !!}
-                            {!! Form::hidden('_method', 'DELETE') !!}
-                            <button id="submit" name="submit" class="btn btn-danger glyphicon glyphicon-trash"></button>
-                            <input type="hidden" name="dt_atividade" value="{{date('Y-m-d', strtotime($ca->dt_atividade))}}">
-                            {!! Form::close() !!}
-                        </td>
-
+                        @if(date('d/m/Y', strtotime($ca->dt_atividade)) == date('d/m/Y'))
+                            <td>
+                                {!! Form::open(array('url' => 'caixa/' . $ca->cd_unidade)) !!}
+                                {!! Form::hidden('_method', 'DELETE') !!}
+                                <button id="submit" name="submit" class="btn btn-danger glyphicon glyphicon-trash"></button>
+                                <input type="hidden" name="dt_atividade" value="{{date('Y-m-d', strtotime($ca->dt_atividade))}}">
+                                {!! Form::close() !!}
+                            </td>
+                        @endif
                     </tr>
                 @endforeach
                 </thead>

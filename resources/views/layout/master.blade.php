@@ -76,5 +76,14 @@
     </div>
 </footer>
 
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="{!! asset('bootstrap/js/jquery.min.js') !!}"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="{!! asset('bootstrap/js/bootstrap.min.js') !!}"></script>
+<!-- JS Min mascara de dinheiro -->
+<script src="{!! asset('bootstrap/js/jquery.maskMoney.min.js') !!}"></script>
+<!-- JS Mascara de dinheiro -->
+<script src="{!! asset('bootstrap/js/mascara_real.js') !!}"></script>
+
 </body>
 </html>

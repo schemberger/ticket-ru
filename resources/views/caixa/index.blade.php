@@ -2,6 +2,14 @@
 
 @section('caixa')
 
+    @if ($errors->has())
+        <div class="alert alert-danger">
+            @foreach ($errors->all() as $error)
+                {{ $error }}<br>
+            @endforeach
+        </div>
+    @endif
+
     @if(Session::has('message'))
         <div class="alert alert-danger">
             <strong>{{ Session::get('message') }}</strong>
@@ -21,7 +29,8 @@
                 <th></th>
 
                 @foreach($caixa as $k=>$ca)
-                    <tr>
+
+                    <tr data-toggle="collapse" data-target="#{{date('Y-m-d', strtotime($ca->dt_atividade))}}" class="acordion-toggle clickable">
                         <td>
                             {{date('d/m/Y', strtotime($ca->dt_atividade))}}
                         </td>
@@ -42,14 +51,34 @@
                             {{money_format('%i' , $ca->vl_troco)}}
                         </td>
 
-                        <td>
-                            {!! Form::open(array('url' => 'caixa/' . $ca->cd_unidade)) !!}
-                            {!! Form::hidden('_method', 'DELETE') !!}
-                                <button id="submit" name="submit" class="btn btn-danger glyphicon glyphicon-trash"></button>
-                                <input type="hidden" name="dt_atividade" value="{{date('Y-m-d', strtotime($ca->dt_atividade))}}">
-                            {!! Form::close() !!}
-                        </td>
+                        @if(date('d/m/Y', strtotime($ca->dt_atividade)) == date('d/m/Y'))
+                            <td>
+                                {!! Form::open(array('url' => 'caixa/' . $ca->cd_unidade)) !!}
+                                {!! Form::hidden('_method', 'DELETE') !!}
+                                    <button id="submit" name="submit" class="btn btn-danger glyphicon glyphicon-trash"></button>
+                                    <input type="hidden" name="dt_atividade" value="{{date('Y-m-d', strtotime($ca->dt_atividade))}}">
+                                {!! Form::close() !!}
+                            </td>
+                        @endif
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <div id="{{date('Y-m-d', strtotime($ca->dt_atividade))}}" class="collapse">
+                                <div>
+                                    {!! Form::model($restaurante, array('url' => 'caixa/'.$restaurante->cd_unidade.'/update', 'method' => 'put', 'class'=>'form-horizontal')) !!}
 
+                                            {!! Form::label('vl_deposito', 'Depósito', ['class'=>'col-sm-2 control-label']) !!}
+                                            <div class="col-sm-4">
+                                                <input id="currency" name="vl_deposito" type="vl_deposito" placeholder="Valor de depósito" value="{{ $ca->vl_deposito }}"
+                                                       class="form-control input-md">
+                                            </div>
+                                            <input type="hidden" name="dt_atividade" value="{{date('Y-m-d', strtotime($ca->dt_atividade))}}">
+                                            {!! Form::submit('Alterar', ['class'=>'col-sm-2  btn btn-success']) !!}
+
+                                    {!! Form::close() !!}
+                                </div>
+                            </div>
+                        </td>
                     </tr>
                 @endforeach
 

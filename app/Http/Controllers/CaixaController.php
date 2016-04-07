@@ -10,6 +10,7 @@ use Ticket\Http\Requests;
 use Ticket\Http\Controllers\Controller;
 use Ticket\Ticket_Venda_Vista;
 use Ticket\Caixa;
+use Illuminate\Foundation\Validation\ValidatesRequests;
 
 class CaixaController extends Controller
 {
@@ -72,7 +73,9 @@ class CaixaController extends Controller
      */
     public function store(Request $request)
     {
-
+        $this->validate($request, [
+            'vl_deposito' => 'numeric|min:0',
+        ]);
 
         $vl_venda = $this->tabelaCaixa($request->cd_unidade, date('Y-m-d'), date('Y-m-d'));
         $troco_atual = $request->vl_troco + $vl_venda - $request->vl_deposito;
@@ -149,7 +152,16 @@ class CaixaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        $this->validate($request, [
+            'vl_deposito' => 'numeric|min:0',
+        ]);
+
+        Caixa::where('cd_unidade', '=', $id)
+            ->where('dt_atividade', '=', $request->dt_atividade)
+            ->update(array('vl_deposito' => $request->vl_deposito));
+
+        return redirect('caixa/'.$id);
     }
 
     /**
@@ -166,7 +178,6 @@ class CaixaController extends Controller
 
         if($vendaDia){
 
-            //return back()->with('message', 'O caixa não pode ser apagado, pois possui vendas registradas.');
             return redirect('caixa/'.$id)->with('message', 'O caixa não pode ser apagado, pois possui vendas registradas.');
 
         }else{

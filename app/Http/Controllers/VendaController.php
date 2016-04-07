@@ -9,7 +9,10 @@ use Ticket\Caixa;
 use Ticket\Http\Requests;
 use Ticket\Http\Controllers\Controller;
 use DB;
+use Ticket\Ticket_Categoria;
 use Ticket\Unidade;
+use Illuminate\Support\Facades\Validator;
+
 
 class VendaController extends Controller
 {
@@ -26,6 +29,7 @@ class VendaController extends Controller
             ->get();
 
         $tabela = $this->categoria($id);
+
 
 
         if(count($caixa_dia)){
@@ -96,16 +100,26 @@ class VendaController extends Controller
             'codigo' => 'required',
             'quantidade' => 'required',
         ]);
-        $unidade = Unidade::find($id);
-        $unidade->nr_sequencia += $request->quantidade;
-        $unidade->save();
-        return redirect('venda/'.$unidade->cd_unidade);
+
+        if(Ticket_Categoria::validaCategoria('$request->cd_unidade', '$request->cd_categoria')){
+
+            return back()-> with('message', 'Categoria não encontrada.');
+
+        }else{
+
+            $unidade = Unidade::find($id);
+            $unidade->nr_sequencia += $request->quantidade;
+            $unidade->save();
+            return redirect('venda/'.$unidade->cd_unidade);
+        }
+
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
+     * @return \Illuminate\Http\Response
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

@@ -7,7 +7,7 @@ use Ticket\Caixa;
 use Ticket\Unidade;
 use Illuminate\Http\Request;
 use Ticket\Http\Requests;
-use Ticket\Http\Controllers\Controller;
+use Ticket\Http\Controllers\ontroller;
 
 class RestauranteController extends Controller
 {

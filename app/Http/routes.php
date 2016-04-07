@@ -15,7 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::group(['middleware'=>'sgiauth'], function() {
+//Route::group(['middleware'=>'sgiauth'], function() {
 
     Route::get('restaurante/lista', 'RestauranteController@lista');
     Route::get('restaurante/ajuda', 'RestauranteController@ajuda');
@@ -26,7 +26,7 @@ Route::group(['middleware'=>'sgiauth'], function() {
 
     Route::get('caixa/{id}', 'CaixaController@index');
     Route::get('caixa/{id}/create', 'CaixaController@create');
-    //Route::get('caixa/{id}/venda', 'CaixaController@venda');
+    Route::put('caixa/{id}/update', 'CaixaController@update');
     Route::post('caixa/{id}/show', 'CaixaController@show');
     Route::resource('caixa', 'CaixaController');
 
@@ -35,4 +35,4 @@ Route::group(['middleware'=>'sgiauth'], function() {
     Route::post('venda/{id}/busca', 'VendaController@buscaServidor');
 
 
-});
+//});

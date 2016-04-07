@@ -1,13 +1,11 @@
 @extends('layout.venda')
 
 @section('venda')
-
     @if(Session::has('message'))
         <div class="alert alert-danger">
             <strong>{{ Session::get('message') }}</strong>
         </div>
     @endif
-
 <div class="row">
     <div class="col-md-8 col-lg-offset-2" style="margin-top: 50px">
 
