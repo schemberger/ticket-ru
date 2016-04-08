@@ -91,6 +91,9 @@ return [
 		'vl_deposito' => [
 			'numeric' => 'O Valor de Depósito deve ser um valor maior ou igual a 0.'
 		],
+		'cd_categoria' => [
+			'required' => 'O campo código é obrigatório.'
+		],
 	],
 	/*
 	|--------------------------------------------------------------------------

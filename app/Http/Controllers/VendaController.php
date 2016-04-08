@@ -30,10 +30,7 @@ class VendaController extends Controller
 
         $tabela = $this->categoria($id);
 
-
-
         if(count($caixa_dia)){
-
 
             return view('venda.venda',['restaurante' => \Ticket\Unidade::find($id), 'tabela' => $tabela]);
 
@@ -41,7 +38,6 @@ class VendaController extends Controller
 
             return redirect('caixa/'.$id.'/create') -> with('message', 'O caixa ainda não foi aberto.');
         }
-
     }
 
     /**
@@ -97,11 +93,11 @@ class VendaController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'codigo' => 'required',
-            'quantidade' => 'required',
+            'cd_categoria' => 'required',
+            'quantidade' => 'required|min:1',
         ]);
 
-        if(Ticket_Categoria::validaCategoria('$request->cd_unidade', '$request->cd_categoria')){
+        if(Ticket_Categoria::validaCategoria($id, $request->cd_categoria)){
 
             return back()-> with('message', 'Categoria não encontrada.');
 
@@ -147,9 +143,17 @@ class VendaController extends Controller
         //dd($consulta);
         if(count($consulta)){
 
+
+
+            return view('venda.venda_prazo',['servidor' => $consulta]);
+
         }else{
             redirect(back())->with('message', 'Servidor não encontrado');
         }
+
+    }
+
+    public function mesDebito(){
 
     }
 }

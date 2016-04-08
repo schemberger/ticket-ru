@@ -15,7 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-//Route::group(['middleware'=>'sgiauth'], function() {
+Route::group(['middleware'=>'sgiauth'], function() {
 
     Route::get('restaurante/lista', 'RestauranteController@lista');
     Route::get('restaurante/ajuda', 'RestauranteController@ajuda');
@@ -35,4 +35,4 @@ Route::get('/', function () {
     Route::post('venda/{id}/busca', 'VendaController@buscaServidor');
 
 
-//});
+});

@@ -2,13 +2,6 @@
 
 @section('caixa')
 
-    @if ($errors->has())
-        <div class="alert alert-danger">
-            @foreach ($errors->all() as $error)
-                {{ $error }}<br>
-            @endforeach
-        </div>
-    @endif
 
     @if(Session::has('message'))
         <div class="alert alert-danger">

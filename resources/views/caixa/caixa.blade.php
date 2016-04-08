@@ -22,7 +22,7 @@
                 <th class="text-center">Valor do Troco</th>
 
                 @foreach($caixa as $k=>$ca)
-                    <tr>
+                    <tr data-toggle="collapse" data-target="#{{date('Y-m-d', strtotime($ca->dt_atividade))}}" class="acordion-toggle clickable">
                         <td>
                             {{date('d/m/Y', strtotime($ca->dt_atividade))}}
                         </td>
@@ -51,6 +51,25 @@
                                 {!! Form::close() !!}
                             </td>
                         @endif
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <div id="{{date('Y-m-d', strtotime($ca->dt_atividade))}}" class="collapse">
+                                <div>
+                                    {!! Form::model($restaurante, array('url' => 'caixa/'.$restaurante->cd_unidade.'/update', 'method' => 'put', 'class'=>'form-horizontal')) !!}
+
+                                    {!! Form::label('vl_deposito', 'Depósito', ['class'=>'col-sm-2 control-label']) !!}
+                                    <div class="col-sm-4">
+                                        <input id="currency" name="vl_deposito" type="vl_deposito" placeholder="Valor de depósito" value="{{ $ca->vl_deposito }}"
+                                               class="form-control input-md">
+                                    </div>
+                                    <input type="hidden" name="dt_atividade" value="{{date('Y-m-d', strtotime($ca->dt_atividade))}}">
+                                    {!! Form::submit('Alterar', ['class'=>'col-sm-2  btn btn-success']) !!}
+
+                                    {!! Form::close() !!}
+                                </div>
+                            </div>
+                        </td>
                     </tr>
                 @endforeach
                 </thead>
