@@ -12,23 +12,23 @@
     <div class="col-md-8 col-lg-offset-2" style="margin-top: 50px">
 
         <div>
-            {!! Form::model($restaurante, array('url' => 'venda/'.$restaurante->cd_unidade.'/update', 'method' => 'put', 'class'=>'form-horizontal')) !!}
-            <div class="form-group">
-                <label class="control-label col-md-2" for="submit" style="font-size: 20px">Código</label>
-                <div class="col-md-2">
-                    <input id="resultado" name="cd_categoria" type="text" placeholder="Código"
-                           class="form-control input-md">
-                </div>
+            {!! Form::model($restaurante, array('url' => 'venda/'.$restaurante->cd_unidade.'/vendaVista', 'method' => 'put', 'class'=>'form-horizontal')) !!}
+                <div class="form-group">
+                    <label class="control-label col-md-2" for="submit" style="font-size: 20px">Código</label>
+                    <div class="col-md-2">
+                        <input id="resultado" name="cd_categoria" type="text" placeholder="Código"
+                               class="form-control input-md">
+                    </div>
 
-                <label class="control-label col-md-2 col-md-offset-2" for="submit" style="font-size: 20px">Quantidade</label>
-                <div class="col-md-2 ">
-                    <input id ="quantidade" name="quantidade" type="text" placeholder="Qntd." value=""
-                           class="form-control input-md">
+                    <label class="control-label col-md-2 col-md-offset-2" for="submit" style="font-size: 20px">Quantidade</label>
+                    <div class="col-md-2 ">
+                        <input id ="quantidade" name="quantidade" type="text" placeholder="Qntd." value=""
+                               class="form-control input-md">
+                    </div>
+                    <div class="col-md-2 pull-right">
+                        {!! Form::submit('Imprimir', ['class'=>'btn-lg btn-success']) !!}
+                    </div>
                 </div>
-                <div class="col-md-2 pull-right">
-                    {!! Form::submit('Imprimir', ['class'=>'btn-lg btn-success']) !!}
-                </div>
-            </div>
             {!! Form::close() !!}
         </div>
 
@@ -66,7 +66,6 @@
                 </div>
         </div>
         {!! Form::submit('Buscar', ['class'=>'btn btn-info']) !!}
-
         {!! Form::close() !!}
 
     </div>

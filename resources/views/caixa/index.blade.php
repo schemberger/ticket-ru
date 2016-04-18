@@ -60,13 +60,17 @@
                                 <div>
                                     {!! Form::model($restaurante, array('url' => 'caixa/'.$restaurante->cd_unidade.'/update', 'method' => 'put', 'class'=>'form-horizontal')) !!}
 
-                                            {!! Form::label('vl_deposito', 'Depósito', ['class'=>'col-sm-2 control-label']) !!}
-                                            <div class="col-sm-4">
-                                                <input id="currency" name="vl_deposito" type="vl_deposito" placeholder="Valor de depósito" value="{{ $ca->vl_deposito }}"
-                                                       class="form-control input-md">
-                                            </div>
-                                            <input type="hidden" name="dt_atividade" value="{{date('Y-m-d', strtotime($ca->dt_atividade))}}">
-                                            {!! Form::submit('Alterar', ['class'=>'col-sm-2  btn btn-success']) !!}
+                                    {!! Form::label('valor', 'Depósito', ['class'=>'col-sm-2 control-label']) !!}
+                                    <div class="col-sm-4">
+                                        <input name="valor" type="text" placeholder="Valor de depósito" value="{{ $ca->vl_deposito }}"
+                                               class="form-control input-md">
+                                    </div>
+
+                                    <input type="hidden" name="vl_troco" value="{{$ca->vl_troco}}">
+                                    <input type="hidden" name="vl_deposito" value="{{$ca->vl_deposito}}">
+                                    <input type="hidden" name="dt_atividade" value="{{date('Y-m-d', strtotime($ca->dt_atividade))}}">
+
+                                    {!! Form::submit('Alterar', ['class'=>'col-sm-2  btn btn-success']) !!}
 
                                     {!! Form::close() !!}
                                 </div>
@@ -74,7 +78,6 @@
                         </td>
                     </tr>
                 @endforeach
-
 
                 </thead>
             </table>

@@ -30,9 +30,12 @@ Route::group(['middleware'=>'sgiauth'], function() {
     Route::post('caixa/{id}/show', 'CaixaController@show');
     Route::resource('caixa', 'CaixaController');
 
-    Route::put('venda/{id}/update', 'VendaController@update');
+    Route::put('venda/{id}/vendaVista', 'VendaController@vendaVista');
     Route::get('venda/{id}', 'VendaController@index');
     Route::post('venda/{id}/busca', 'VendaController@buscaServidor');
+
+    Route::post('vendaPrazo/{id}', 'VendaController@vendaPrazo');
+
 
 
 });

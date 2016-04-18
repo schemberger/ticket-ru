@@ -61,7 +61,7 @@ class CaixaController extends Controller
 
             $vl_troco = $this->valorTroco($id);
 
-            return view('caixa.caixaAtual',['restaurante' => \Ticket\Unidade::find($id)],  compact('vl_troco'));
+            return view('caixa.caixaCreate',['restaurante' => \Ticket\Unidade::find($id)],  compact('vl_troco'));
         }
     }
 
@@ -91,6 +91,11 @@ class CaixaController extends Controller
         return redirect('caixa/'.$id);
     }
 
+    /**
+     * @param $id
+     * @return vl_troco
+     * A função retorna o valor do troco do dia anterior para ser usado quando o caixa é aberto
+     */
     public function valorTroco($id){
         $vl_troco = \Ticket\Caixa::select('vl_troco')
             ->orderBy('ticket_caixa.dt_atividade', 'desc')
@@ -152,14 +157,15 @@ class CaixaController extends Controller
      */
     public function update(Request $request, $id)
     {
-
         $this->validate($request, [
-            'vl_deposito' => 'numeric|min:0',
+            'valor' => 'numeric|min:0',
         ]);
+
+        $troco = $request->vl_troco +($request->vl_deposito-$request->valor);
 
         Caixa::where('cd_unidade', '=', $id)
             ->where('dt_atividade', '=', $request->dt_atividade)
-            ->update(array('vl_deposito' => $request->vl_deposito));
+            ->update(array('vl_deposito' => $request->valor, 'vl_troco' => $troco));
 
         return redirect('caixa/'.$id);
     }
@@ -172,9 +178,7 @@ class CaixaController extends Controller
      */
     public function destroy($id, Request $request)
     {
-
         $vendaDia = $this->tabelaCaixa($id, $request->dt_atividade, $request->dt_atividade);
-        //var_dump($vendaDia);
 
         if($vendaDia){
 
@@ -186,48 +190,6 @@ class CaixaController extends Controller
                 ->where('ticket_caixa.cd_unidade', '=', $id)->delete();
 
             return redirect('caixa/'.$id);
-        }
-
-    }
-
-    public function caixaAtual($id)
-    {
-
-        /**
-         * A querry abaixo faz uma pesquisa e retorna o valor do troco da ultima data inserida
-         */
-        try{
-
-            $vl_troco = \Ticket\Caixa::select('vl_troco')
-                ->orderBy('ticket_caixa.dt_atividade', 'desc')
-                ->where('ticket_caixa.cd_unidade', '=', $id)
-                ->take(1)->get()->first();
-
-            //var_dump($vl_troco);
-
-            return view('caixa.caixaAtual',['restaurante' => \Ticket\Unidade::find($id)],  compact('vl_troco'));
-
-        }catch (\Illuminate\Database\QueryException $e){
-
-            return redirect('caixa.caixa', ['restaurante' => \Ticket\Unidade::find($id)]) -> with('message', 'Criar view para fazer cadastro de caixa');
-
-        }
-
-    }
-
-    public function venda($id){
-        $data_dia = date('Y-m-d');
-        $caixa_dia = Caixa::where('ticket_caixa.cd_unidade', '=', $id)
-            ->where('ticket_caixa.dt_atividade', '=', $data_dia)
-            ->get();
-
-        if(count($caixa_dia)){
-
-            return view('caixa.venda',['restaurante' => \Ticket\Unidade::find($id)]);
-
-        }else{
-            //var_dump($caixa_dia);
-            return redirect('caixa/'.$id.'/create') -> with('message', 'O caixa ainda não foi aberto.');
         }
 
     }
