@@ -60,6 +60,8 @@
         margin-right: 14px;
         margin-top: 14px;
     }
-
+    .disable{
+        opacity: 0;
+    }
 
 }

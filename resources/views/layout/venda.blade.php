@@ -22,7 +22,7 @@
                             </li>
                             <li class="btn btn-default btn-primary btn-lg" role="button"><a href="#">Perdas a Prazo</a>
                             </li>
-                            <li class="btn btn-default btn-primary btn-lg" role="button"><a href="#">Categorias</a></li>
+                            <li class="btn btn-default btn-primary btn-lg" role="button"><a href="{{ url('categoria/'.$restaurante->cd_unidade) }}">Categorias</a></li>
                             <li class="btn btn-default btn-primary btn-lg" role="button"><a
                                         href="{{ url('restaurante') }}">Mudar Unidade</a></li>
                             <li class="btn btn-default btn-primary btn-lg" role="button"><a

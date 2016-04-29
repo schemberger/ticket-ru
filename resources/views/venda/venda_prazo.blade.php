@@ -19,6 +19,7 @@
                                class="form-control input-md">
                         <input name="matricula" type="hidden" value="" class="form-control input-md">
                     </div>
+
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-2" for="submit" style="font-size: 20px">Código</label>

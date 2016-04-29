@@ -128,13 +128,6 @@ class RestauranteController extends Controller
         return view('restaurante.ajuda');
     }
 
-    /**
-        public function unidade($id){
-
-            return view('restaurante.unidade', ['restaurante' => \Ticket\Unidade::find($id)]);
-
-        }
-    */
 }
 
 

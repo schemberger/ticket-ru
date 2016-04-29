@@ -1,6 +1,7 @@
 @extends('layout.master')
 
 @section('content')
+
     <h2>Unidades</h2>
     <a class="btn btn-success " href="{{ url('restaurante') }}" role="button">Voltar</a>
     <nav class="pull-right">
@@ -13,29 +14,29 @@
             <strong>{{ Session::get('message') }}</strong>
         </div>
     @endif
+    <div class="row">
+        <table class="table table-striped">
+            <thead>
 
-    <table class="table table-striped">
-        <thead>
+            <th>Codigo</th>
+            <th>Nome</th>
+            <th>Número Sequência</th>
 
-        <th>Codigo</th>
-        <th>Nome</th>
-        <th>Número Sequência</th>
-
-        @foreach($unidades as $un)
-            <tr>
-                <td>
-                    {{$un->cd_unidade}}
-                </td>
-                <td class ="link" onclick="location.href='{{ url('restaurante/'.$un->cd_unidade.'/edit') }}'">
-                    {{$un->nm_unidade}}
-                </td>
-                <td>
-                    {{$un->nr_sequencia}}
-                </td>
-            </tr>
-        @endforeach
-        </thead>
-    </table>
-
+            @foreach($unidades as $un)
+                <tr>
+                    <td>
+                        {{$un->cd_unidade}}
+                    </td>
+                    <td class ="link" onclick="location.href='{{ url('restaurante/'.$un->cd_unidade.'/edit') }}'">
+                        {{$un->nm_unidade}}
+                    </td>
+                    <td>
+                        {{$un->nr_sequencia}}
+                    </td>
+                </tr>
+            @endforeach
+            </thead>
+        </table>
+    </div>
 @stop
 

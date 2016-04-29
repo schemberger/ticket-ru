@@ -16,6 +16,13 @@
     <script src="{{ asset('/bootstrap/js/jquery-2.1.4.min.js') }}"></script>
     <script src="{{ asset('/bootstrap/js/bootstrap.min.js') }}"></script>
 
+    <!-- Mascara data -->
+    <script src="{!! asset('bootstrap/js/maskedinput.js') !!}"></script>
+    <!-- JS Min mascara de dinheiro -->
+    <script src="{!! asset('bootstrap/js/jquery.maskMoney.min.js') !!}"></script>
+    <!-- JS Mascara de dinheiro -->
+    <script src="{!! asset('bootstrap/js/mascara_real.js') !!}"></script>
+
 </head>
 <body>
 
@@ -23,20 +30,14 @@
 <div class="navbar navbar-default" role="navigation">
 
     <div class="navbar-header pull-left">
-
         <a class="navbar-brand" href="http://uepg.br/">
             <img src="{{ asset ('imagens/UEPG-Ticket.png')}}" alt="UEPG - Universidade Estadual de Ponta Grossa"
                  class="img-responsive" style="margin-top: -4px;">
         </a>
-
     </div>
 
     <div class="navbar-header navbar-right" style="padding: 0 15px;">
-
-
-
         <p class="navbar-text pull-left"><i class="glyphicon glyphicon-user"></i> <u>
-
                 @section(Config::get('sgiauthorizer.view.contentLoggedUser'))
                     @if(session()->has('sgiauthorizer.usuario'))
 
@@ -48,11 +49,8 @@
                            class="btn btn-default active" role="button"> Login </a>
                     @endif
                 @show
-
             </u></p>
-
     </div>
-
 </div>
 
 @yield(Config::get('sgiauthorizer.view.contentSection'))
@@ -63,7 +61,8 @@
 
 <footer class="_footer navbar navbar-default pull-left pull-down">
     <div class="container-fluid">
-        <p class="navbar-text">© {{date("Y")}} - <a href="http://pitangui.uepg.br/nti" target="_blank">Núcleo de Tecnologia de
+        <p class="navbar-text">© {{date("Y")}} - <a href="http://pitangui.uepg.br/nti" target="_blank">Núcleo de
+                Tecnologia de
                 Informação - UEPG</a>
             </br>Problemas na visualização? <a href="mailto: internet@uepg.br" target="_blank">internet@uepg.br</a></p>
 
@@ -75,15 +74,6 @@
         </div>
     </div>
 </footer>
-
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="{!! asset('bootstrap/js/jquery.min.js') !!}"></script>
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="{!! asset('bootstrap/js/bootstrap.min.js') !!}"></script>
-<!-- JS Min mascara de dinheiro -->
-<script src="{!! asset('bootstrap/js/jquery.maskMoney.min.js') !!}"></script>
-<!-- JS Mascara de dinheiro -->
-<script src="{!! asset('bootstrap/js/mascara_real.js') !!}"></script>
 
 </body>
 </html>

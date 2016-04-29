@@ -23,6 +23,7 @@ class Ticket_Categoria extends Model{
         $valida = Ticket_Categoria::where('cd_unidade', '=', $cd_unidade)
             ->where('cd_categoria', '=', $cd_categoria)
             ->get();
+
         if(count($valida)){
             return 0;
         }else{

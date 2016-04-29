@@ -13,6 +13,7 @@ use Ticket\Http\Controllers\CaixaController;
 use Ticket\Ticket_Categoria;
 use Ticket\Ticket_Custo_Categoria;
 use Ticket\Ticket_Venda_Vista;
+use Ticket\Ticket_Venda_Prazo;
 use Ticket\Unidade;
 use Illuminate\Support\Facades\Validator;
 
@@ -33,9 +34,11 @@ class VendaController extends Controller
 
         $tabela = $this->categoria($id);
 
+        $mes_debito = $this->mesDebito();
+
         if(count($caixa_dia)){
 
-            return view('venda.venda',['restaurante' => \Ticket\Unidade::find($id), 'tabela' => $tabela]);
+            return view('venda.venda',['restaurante' => \Ticket\Unidade::find($id), 'tabela' => $tabela, 'mes'=>$mes_debito]);
 
         }else{
 
@@ -151,19 +154,16 @@ class VendaController extends Controller
 
         $consulta = DB::select('EXEC Pessoas ?', array($request->nome));
 
+        $mes_debito = $this->mesDebito();
+
         if(empty($consulta)){
 
             return redirect ('venda/'.$id)->with('message', 'Servidor não encontrado');
 
         }else{
-            return view('venda.venda_prazo',['restaurante' => \Ticket\Unidade::find($id),'servidor' => $consulta,'tabela' => $tabela]);
+            return view('venda.venda_prazo',['restaurante' => \Ticket\Unidade::find($id),'servidor' => $consulta,'tabela' => $tabela, 'mes'=>$mes_debito]);
 
         }
-
-    }
-
-    public function mesDebito(){
-
     }
 
     /**
@@ -189,22 +189,22 @@ class VendaController extends Controller
             'quantidade' => 'required|min:1',
         ]);
 
-        $categoria = Ticket_Custo_Categoria::where('cd_unidade', '=', $id)
-            ->where('cd_categoria', '=', $request->cd_categoria)
-            ->first();
-
-        $aux = Ticket_Venda_Vista::where('cd_unidade', '=', $id)
-            ->where('cd_categoria', '=', $request->cd_categoria)
-            ->where('dt_ini_vigencia', '=', $categoria->dt_ini_vigencia)
-            ->where('dt_venda', '=', date('Y-m-d'))
-            ->first();
-
         //Faz uma busca com a categoria recebida por request e testa se a categoria existe ou não
         if(Ticket_Categoria::validaCategoria($id, $request->cd_categoria)){
 
             return back()-> with('message', 'Categoria não encontrada.');
 
         }else{
+            $categoria = Ticket_Custo_Categoria::where('cd_unidade', '=', $id)
+                ->where('cd_categoria', '=', $request->cd_categoria)
+                ->first();
+
+            $aux = Ticket_Venda_Vista::where('cd_unidade', '=', $id)
+                ->where('cd_categoria', '=', $request->cd_categoria)
+                ->where('dt_ini_vigencia', '=', $categoria->dt_ini_vigencia)
+                ->where('dt_venda', '=', date('Y-m-d'))
+                ->first();
+
             //Verificação caso não seja a primeira venda, apenas fazer um update na tabela.
             if(count($aux)){
 
@@ -241,7 +241,10 @@ class VendaController extends Controller
             $unidade = Unidade::find($id);
             $unidade->nr_sequencia += $request->quantidade;
             $unidade->save();
-            return redirect('venda/'.$unidade->cd_unidade);
+
+            //return view('venda/'.$unidade->cd_unidade,['vl_venda' => $venda]);
+
+            return redirect('venda/'.$unidade->cd_unidade)->with('data', $valorVenda);
         }
     }
 
@@ -251,21 +254,14 @@ class VendaController extends Controller
             'cd_categoria' => 'required',
             'quantidade' => 'required|min:1',
         ]);
-        
+
         $consulta = DB::select('EXEC Pessoas ?', array($request->nm_pessoa));
 
-        $categoria = Ticket_Custo_Categoria::where('cd_unidade', '=', $id)
-            ->where('cd_categoria', '=', $request->cd_categoria)
-            ->first();
-
-        $aux = Ticket_Venda_Prazo::where('cd_unidade', '=', $id)
-            ->where('cd_categoria', '=', $request->cd_categoria)
-            ->where('dt_ini_vigencia', '=', $categoria->dt_ini_vigencia)
-            ->where('matricula', '=', $consulta[0]->matricula)
-            ->first();
-
-
-        //dd($consulta[0]->matricula);
+        /** $data chama a função mesDebito() e recebe como valor uma data no formato mm/aaaa, para fazer insert ou update
+         * no banco o formato usado é aaaamm, EX:201601 por isso a função explode é usada para retirar a '/' e formatado
+         * para fazer operações no banco.
+        */
+        $data = explode('/', $this->mesDebito(), 2);
 
         if(DB::table('DIFI..bloqueado')->where('matricula', '=', $consulta[0]->matricula)->get()){
 
@@ -274,32 +270,57 @@ class VendaController extends Controller
         }else {
             if (Ticket_Categoria::validaCategoria($id, $request->cd_categoria)) {
 
-                return back()->with('message', 'Categoria não encontrada.');
+                return redirect('venda/'.$id)->with('message', 'Categoria não encontrada.');
 
             } else {
+
+                $categoria = Ticket_Custo_Categoria::where('cd_unidade', '=', $id)
+                    ->where('cd_categoria', '=', $request->cd_categoria)
+                    ->first();
+
+                $aux = Ticket_Venda_Prazo::where('cd_unidade', '=', $id)
+                    ->where('cd_categoria', '=', $request->cd_categoria)
+                    ->where('dt_ini_vigencia', '=', $categoria->dt_ini_vigencia)
+                    ->where('matricula', '=', $consulta[0]->matricula)
+                    ->where('dt_venda', '=', date('Y-m-d'))
+                    ->first();
+
                 //Verificação caso não seja a primeira venda, apenas fazer um update na tabela.
                 if (count($aux)) {
 
-                    Ticket_Venda_Vista::where('cd_unidade', '=', $id)
+                    Ticket_Venda_Prazo::where('cd_unidade', '=', $id)
                         ->where('cd_categoria', '=', $request->cd_categoria)
                         ->where('dt_ini_vigencia', '=', $categoria->dt_ini_vigencia)
-                        ->where('dt_venda', '=', date('Y-m-d'))
+                        ->where('matricula', '=', $consulta[0]->matricula)
+                        ->where('lin_func', '=', $consulta[0]->lin_func)
+                        ->where('ano_mes_venda', '=', $data[1].$data[0])
                         ->update(array('qt_venda' => $aux->qt_venda + $request->quantidade));
 
                 } //Verificação caso seja a primeira venda do dia, então deve se criar um novo campo na tabela.
                 else {
 
-                    $venda = new Ticket_Venda_Vista();
+                    $venda = new Ticket_Venda_Prazo;
                     $venda->cd_unidade = $id;
                     $venda->cd_categoria = $request->cd_categoria;
                     $venda->dt_ini_vigencia = $categoria->dt_ini_vigencia;
-                    $venda->dt_venda = date('Y-m-d');
+                    $venda->matricula = $consulta[0]->matricula;
+                    $venda->lin_func = $consulta[0]->lin_func;
+                    $venda->ano_mes_venda = $data[1].$data[0];
+                    $venda->marca = 'N';
                     $venda->qt_venda = $request->quantidade;
+                    $venda->dt_venda = date('Y-m-d');
                     $venda->save();
 
                 }
-
             }
+
+            $mensagem = 'Recebida Universidade Estadual de Ponta Grossa '.$request->quantidade.' Tickets refeição ao valor de '.$categoria->vl_categoria
+                .'0 cada e autorizo o débito do total em minha conta corrente junto ao pagamento de '.$this->mesDebito();
+
+            $unidade = Unidade::find($id);
+            $unidade->nr_sequencia += $request->quantidade;
+            $unidade->save();
+            return redirect('venda/'.$unidade->cd_unidade);
         }
     }
 
@@ -320,5 +341,23 @@ class VendaController extends Controller
 
         return $valorVenda;
     }
-}
 
+    public function mesDebito(){
+
+        $dia_hoje = date('d');
+        $mes_hoje = date('m');
+
+        if ($dia_hoje <= 15){
+            $data = date('m/Y');
+            return $data;
+        }else{
+            if($mes_hoje == 12){
+                $data = '01/'.(date('Y')+1);
+                return $data;
+            }else{
+                $data = date('m/Y', strtotime('+1 month'));
+                return $data;
+            }
+        }
+    }
+}
