@@ -51,7 +51,8 @@ return array(
 
     'app' => [
         'loginRoute' => '/login',
-        'userInfoRoute' => '/user/profile'
+        'userInfoRoute' => '/user/profile',
+        'rotaPrincipal' => '/restaurante'
     ],
   
     /*

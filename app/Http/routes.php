@@ -36,7 +36,12 @@ Route::group(['middleware'=>'sgiauth'], function() {
 
     Route::get('categoria/{id}', 'CategoriaController@index');
     Route::get('categoria/{id}/create', 'CategoriaController@create');
+    Route::post('categoria/{id}/edit', 'CategoriaController@edit');
+    Route::resource('categoria', 'CategoriaController');
+
     Route::post('categoria/{id}/createCusto', 'CategoriaController@createCusto');
+    Route::post('categoria/{id}/storeCusto', 'CategoriaController@storeCusto');
+
 
 
 });
